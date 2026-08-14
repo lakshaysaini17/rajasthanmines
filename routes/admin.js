@@ -399,25 +399,30 @@ router.post('/passes/:id/edit', upload.fields([
     pass.weighBridge = data.weighBridge.trim();
 
     await pass.save();
-    res.redirect(`/admin/dashboard?success=` + encodeURIComponent(`Pass ${pass.passNumber} updated successfully!`));
+    res.redirect(`/admin/passes?success=` + encodeURIComponent(`Pass ${pass.passNumber} updated successfully!`));
   } catch (err) {
     console.error('Update pass error:', err);
-    res.redirect('/admin/dashboard?error=' + encodeURIComponent('Failed to update pass: ' + err.message));
+    res.redirect('/admin/passes?error=' + encodeURIComponent('Failed to update pass: ' + err.message));
   }
 });
 
 // POST /admin/passes/:id/delete - Delete pass
 router.post('/passes/:id/delete', async (req, res) => {
+  const referrer = req.get('Referrer');
+  const targetUrl = (referrer && (referrer.includes('/admin/passes') || referrer.includes('/admin/dashboard')))
+    ? referrer.split('?')[0]
+    : '/admin/passes';
+
   try {
     const deleted = await Pass.findByIdAndDelete(req.params.id);
     if (deleted) {
-      res.redirect('/admin/dashboard?success=' + encodeURIComponent(`Pass ${deleted.passNumber} was deleted.`));
+      res.redirect(`${targetUrl}?success=` + encodeURIComponent(`Pass ${deleted.passNumber} was deleted.`));
     } else {
-      res.redirect('/admin/dashboard?error=' + encodeURIComponent('Pass not found.'));
+      res.redirect(`${targetUrl}?error=` + encodeURIComponent('Pass not found.'));
     }
   } catch (err) {
     console.error('Delete error:', err);
-    res.redirect('/admin/dashboard?error=' + encodeURIComponent('Failed to delete pass.'));
+    res.redirect(`${targetUrl}?error=` + encodeURIComponent('Failed to delete pass.'));
   }
 });
 
