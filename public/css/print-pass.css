@@ -49,7 +49,7 @@ body {
 
 /* Page Document Wrapper */
 .document-page {
-  max-width: 800px;
+  max-width: 820px;
   margin: 28px auto;
   padding: 0 12px;
 }
@@ -70,26 +70,29 @@ body {
   justify-content: space-between;
   padding-bottom: 8px;
   border-bottom: 1.2px solid #1f2937;
-  gap: 8px;
+  gap: 12px;
 }
 
 .header-emblem {
-  width: 110px;
+  width: 100px;
+  flex-shrink: 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
 .header-emblem img {
-  width: 104px;
-  height: 104px;
+  width: 95px;
+  height: 95px;
+  max-width: 100%;
   object-fit: contain;
 }
 
 .header-titles {
   flex: 1;
   text-align: center;
-  padding: 0 8px;
+  padding: 0 6px;
+  min-width: 0;
 }
 
 .header-titles .state-name {
@@ -101,7 +104,7 @@ body {
 }
 
 .header-titles .dept-name {
-  font-size: 16.5px;
+  font-size: 16px;
   font-weight: 700;
   color: #111827;
   letter-spacing: 0.3px;
@@ -110,15 +113,17 @@ body {
 }
 
 .header-qr {
-  width: 110px;
+  width: 95px;
+  flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .header-qr img {
-  width: 85px;
-  height: 85px;
+  width: 82px;
+  height: 82px;
+  max-width: 100%;
   border: 1px solid #1f2937;
   padding: 1px;
 }
@@ -126,11 +131,11 @@ body {
 /* 2. Banner */
 .pass-banner {
   border-bottom: 1.2px solid #1f2937;
-  padding: 7px 10px;
+  padding: 8px 10px;
   text-align: center;
   font-size: 13.5px;
   font-weight: 450;
-  line-height: 1.35;
+  line-height: 1.4;
   color: #111827;
 }
 
@@ -151,21 +156,21 @@ body {
 }
 
 .grid-col {
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
 .col-left {
   border-right: 1.2px solid #1f2937;
-  padding-right: 10px;
+  padding-right: 12px;
 }
 
 .col-right {
-  padding-left: 10px;
+  padding-left: 12px;
 }
 
 .pass-grid .row {
   display: flex;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   align-items: flex-start;
   font-size: 12.5px;
   line-height: 1.35;
@@ -180,33 +185,39 @@ body {
   color: #374151;
   font-weight: 400;
   padding-right: 4px;
+  flex-shrink: 0;
 }
 
 .col-right .label {
-  width: 42%;
+  width: 44%;
   color: #374151;
   font-weight: 400;
   padding-right: 4px;
+  flex-shrink: 0;
 }
 
 .pass-grid .sep {
   width: 12px;
   font-weight: 500;
   color: #111827;
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .col-left .val {
-  width: calc(52% - 12px);
+  flex: 1;
   color: #111827;
   font-weight: 500;
   word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .col-right .val {
-  width: calc(58% - 12px);
+  flex: 1;
   color: #111827;
   font-weight: 500;
   word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* 4. Vehicle Photos */
@@ -222,7 +233,7 @@ body {
   position: relative;
   background: #000000;
   border: 1.2px solid #1f2937;
-  height: 230px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -261,7 +272,103 @@ body {
   text-decoration: underline;
 }
 
-/* Print Formatting */
+/* ==========================================================
+   MOBILE & TABLET RESPONSIVE VIEW STYLES
+   ========================================================== */
+@media screen and (max-width: 680px) {
+  .document-page {
+    margin: 12px auto;
+    padding: 0 6px;
+  }
+
+  .pass-box {
+    padding: 10px 10px;
+  }
+
+  .minimal-print-bar {
+    top: 10px;
+    right: 10px;
+  }
+
+  .btn-print-pill {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+
+  .header-emblem {
+    width: 65px;
+  }
+
+  .header-emblem img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .header-titles .state-name {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .header-titles .dept-name {
+    font-size: 12.5px;
+    line-height: 1.2;
+  }
+
+  .header-qr {
+    width: 65px;
+  }
+
+  .header-qr img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .pass-banner {
+    font-size: 12px;
+    padding: 6px 4px;
+  }
+
+  /* Single Column Stack on Mobile to prevent any overlapping */
+  .pass-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .col-left {
+    border-right: none;
+    border-bottom: 1.2px dashed #94a3b8;
+    padding-right: 0;
+    padding-bottom: 8px;
+  }
+
+  .col-right {
+    padding-left: 0;
+    padding-top: 8px;
+  }
+
+  .col-left .label,
+  .col-right .label {
+    width: 44%;
+    font-size: 12px;
+  }
+
+  .col-left .val,
+  .col-right .val {
+    font-size: 12px;
+  }
+
+  .pass-photos {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .photo-frame {
+    height: 180px;
+  }
+}
+
+/* ==========================================================
+   PRINT FORMATTING (Fixed A4 Government Pass Layout)
+   ========================================================== */
 @media print {
   @page {
     size: A4 portrait;
@@ -290,6 +397,67 @@ body {
     padding: 8px 10px !important;
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+
+  .pass-header {
+    gap: 12px !important;
+  }
+
+  .header-emblem {
+    width: 100px !important;
+  }
+
+  .header-emblem img {
+    width: 95px !important;
+    height: 95px !important;
+  }
+
+  .header-titles .state-name {
+    font-size: 17px !important;
+  }
+
+  .header-titles .dept-name {
+    font-size: 16px !important;
+  }
+
+  .header-qr {
+    width: 95px !important;
+  }
+
+  .header-qr img {
+    width: 82px !important;
+    height: 82px !important;
+  }
+
+  .pass-grid {
+    display: grid !important;
+    grid-template-columns: 1.15fr 0.95fr !important;
+  }
+
+  .col-left {
+    border-right: 1.2px solid #1f2937 !important;
+    border-bottom: none !important;
+    padding-right: 12px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .col-right {
+    padding-left: 12px !important;
+    padding-top: 0 !important;
+  }
+
+  .col-left .label {
+    width: 48% !important;
+  }
+
+  .col-right .label {
+    width: 44% !important;
+  }
+
+  .pass-photos {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
   }
 
   .photo-frame {
