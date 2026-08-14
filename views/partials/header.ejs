@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="icon" type="image/png" href="/images/emblem.png">
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- Left Navy Sidebar -->
+    <aside class="app-sidebar">
+      
+      <!-- Brand Area -->
+      <div class="sidebar-brand">
+        <div class="brand-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M19.44 9.03L15.41 5 11 9.41l1.41 1.41 1.59-1.59 1.41 1.41-1.59 1.59 1.41 1.41 1.59-1.59 1.41 1.41-1.59 1.59 1.41 1.41 2.4-2.4c.78-.78.78-2.05 0-2.83M4.59 18.59l8.03-8.03-1.41-1.41L3.18 17.18c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0z"/>
+          </svg>
+        </div>
+        <div class="brand-title">MINES &amp; GEOLOGY<br>RAJASTHAN</div>
+        <div class="brand-subtitle">e-Rawaana System</div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="sidebar-nav">
+        
+        <div class="nav-section-label">MAIN</div>
+        
+        <a href="/admin/dashboard" class="sidebar-nav-link <%= activeMenu === 'dashboard' ? 'active' : '' %>">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Dashboard
+        </a>
+
+        <a href="/admin/passes/new" class="sidebar-nav-link <%= activeMenu === 'new-pass' ? 'active' : '' %>">
+          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          New Pass
+        </a>
+
+        <a href="/admin/passes" class="sidebar-nav-link <%= activeMenu === 'passes' ? 'active' : '' %>">
+          <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          All Passes
+        </a>
+
+        <div class="nav-section-label">ADMINISTRATION</div>
+
+        <a href="/admin/settings" class="sidebar-nav-link <%= activeMenu === 'settings' ? 'active' : '' %>">
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          Settings
+        </a>
+
+      </div>
+
+      <!-- Bottom Profile -->
+      <div class="sidebar-footer">
+        <div class="user-profile-row">
+          <div class="user-avatar-circle">AD</div>
+          <div class="user-details">
+            <div class="user-name">Administrator</div>
+            <div class="user-role">admin</div>
+          </div>
+        </div>
+        <a href="/logout" class="logout-link">
+          <span>&rarr; Logout</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="app-main">
+
+      <!-- Topbar Header -->
+      <div class="app-topbar">
+        <div class="page-header-title">
+          <h1><%= activeMenu === 'dashboard' ? 'Dashboard' : (activeMenu === 'new-pass' ? 'New Transit Pass' : (activeMenu === 'passes' ? 'All Transit Passes' : 'Settings')) %></h1>
+          <div class="current-date"><%= currentDateStr %></div>
+        </div>
+
+        <div class="topbar-right-user">
+          <div class="topbar-avatar">AD</div>
+          <div class="topbar-username">Administrator</div>
+        </div>
+      </div>

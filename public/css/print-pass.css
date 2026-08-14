@@ -1,0 +1,298 @@
+/* Minimalist Official Rajasthan eTransit Pass Stylesheet - Clean, Balanced Typography */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #f1f5f9;
+  color: #111827;
+  line-height: 1.35;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  padding-bottom: 40px;
+  font-weight: 400;
+}
+
+/* Minimalist Print Button Pill (Floating Top-Right) */
+.minimal-print-bar {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.btn-print-pill {
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 7px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-print-pill:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+/* Page Document Wrapper */
+.document-page {
+  max-width: 800px;
+  margin: 28px auto;
+  padding: 0 12px;
+}
+
+/* The Official Bordered Pass Box */
+.pass-box {
+  background: #ffffff;
+  border: 1.2px solid #1f2937;
+  padding: 14px 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  color: #111827;
+}
+
+/* 1. Header */
+.pass-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1.2px solid #1f2937;
+  gap: 8px;
+}
+
+.header-emblem {
+  width: 110px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header-emblem img {
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+}
+
+.header-titles {
+  flex: 1;
+  text-align: center;
+  padding: 0 8px;
+}
+
+.header-titles .state-name {
+  font-size: 17px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 3px;
+  letter-spacing: 0.2px;
+}
+
+.header-titles .dept-name {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.header-qr {
+  width: 110px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-qr img {
+  width: 85px;
+  height: 85px;
+  border: 1px solid #1f2937;
+  padding: 1px;
+}
+
+/* 2. Banner */
+.pass-banner {
+  border-bottom: 1.2px solid #1f2937;
+  padding: 7px 10px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 450;
+  line-height: 1.35;
+  color: #111827;
+}
+
+.pass-banner .highlight-text {
+  font-weight: 600;
+  color: #000000;
+}
+
+.pass-banner .status-name {
+  font-weight: 500;
+}
+
+/* 3. Two-Column Grid */
+.pass-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  border-bottom: 1.2px solid #1f2937;
+}
+
+.grid-col {
+  padding: 6px 0;
+}
+
+.col-left {
+  border-right: 1.2px solid #1f2937;
+  padding-right: 10px;
+}
+
+.col-right {
+  padding-left: 10px;
+}
+
+.pass-grid .row {
+  display: flex;
+  margin-bottom: 4px;
+  align-items: flex-start;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.pass-grid .row:last-child {
+  margin-bottom: 0;
+}
+
+.col-left .label {
+  width: 48%;
+  color: #374151;
+  font-weight: 400;
+  padding-right: 4px;
+}
+
+.col-right .label {
+  width: 42%;
+  color: #374151;
+  font-weight: 400;
+  padding-right: 4px;
+}
+
+.pass-grid .sep {
+  width: 12px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.col-left .val {
+  width: calc(52% - 12px);
+  color: #111827;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.col-right .val {
+  width: calc(58% - 12px);
+  color: #111827;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* 4. Vehicle Photos */
+.pass-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1.2px solid #1f2937;
+}
+
+.photo-frame {
+  position: relative;
+  background: #000000;
+  border: 1.2px solid #1f2937;
+  height: 230px;
+  overflow: hidden;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* 5. Footer Notice */
+.pass-footer {
+  padding-top: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.pass-footer a {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* Print Formatting */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 8mm 6mm 8mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .minimal-print-bar {
+    display: none !important;
+  }
+
+  .document-page {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .pass-box {
+    box-shadow: none !important;
+    border: 1.2px solid #000000 !important;
+    padding: 8px 10px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .photo-frame {
+    height: 210px !important;
+  }
+}

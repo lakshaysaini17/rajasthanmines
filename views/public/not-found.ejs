@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="icon" type="image/png" href="/images/emblem.png">
+  <style>
+    body {
+      background: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .error-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 40px 32px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .error-card img {
+      height: 60px;
+      margin-bottom: 20px;
+    }
+    .error-code {
+      font-size: 14px;
+      font-weight: 700;
+      color: #dc2626;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 20px;
+      color: #0f172a;
+      margin: 0 0 12px;
+    }
+    p {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0 0 24px;
+    }
+    .btn-home {
+      display: inline-block;
+      background: #0a2540;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .btn-home:hover {
+      background: #0b192e;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error-card">
+    <img src="/images/emblem.png" alt="Rajasthan State Emblem">
+    <h1>Pass Not Found</h1>
+    <p>No active transit pass was found matching number: <br><strong style="color: #000;"><%= searchedNumber %></strong></p>
+    <a href="/" class="btn-back">Search Another Pass</a>
+  </div>
+
+</body>
+</html>

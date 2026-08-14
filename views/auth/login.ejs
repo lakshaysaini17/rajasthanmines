@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="icon" type="image/png" href="/images/emblem.png">
+  <style>
+    body {
+      background: #0b192e;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+    }
+    .login-top {
+      background: #0a2540;
+      color: #ffffff;
+      padding: 30px 24px;
+      text-align: center;
+    }
+    .login-icon-box {
+      width: 54px;
+      height: 54px;
+      background: #f59e0b;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .login-icon-box svg {
+      width: 30px;
+      height: 30px;
+      fill: #0b192e;
+    }
+    .login-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .login-sub {
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+    .login-form {
+      padding: 24px;
+    }
+    .btn-login-submit {
+      width: 100%;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 11px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .btn-login-submit:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-top">
+      <div class="login-icon-box">
+        <svg viewBox="0 0 24 24">
+          <path d="M19.44 9.03L15.41 5 11 9.41l1.41 1.41 1.59-1.59 1.41 1.41-1.59 1.59 1.41 1.41 1.59-1.59 1.41 1.41-1.59 1.59 1.41 1.41 2.4-2.4c.78-.78.78-2.05 0-2.83M4.59 18.59l8.03-8.03-1.41-1.41L3.18 17.18c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0z"/>
+        </svg>
+      </div>
+      <div class="login-title">MINES &amp; GEOLOGY RAJASTHAN</div>
+      <div class="login-sub">e-Rawaana Transport System</div>
+    </div>
+
+    <div class="login-form">
+      <% if (error) { %>
+        <div class="alert-banner error">
+          ⚠️ <%= error %>
+        </div>
+      <% } %>
+      <% if (success) { %>
+        <div class="alert-banner success">
+          ✅ <%= success %>
+        </div>
+      <% } %>
+
+      <form action="/login" method="POST">
+        <div class="form-group-item" style="margin-bottom: 14px;">
+          <label for="username">Officer Username</label>
+          <input type="text" id="username" name="username" class="form-control-input" placeholder="admin" required autofocus>
+        </div>
+
+        <div class="form-group-item" style="margin-bottom: 18px;">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control-input" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn-login-submit">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

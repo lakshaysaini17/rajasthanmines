@@ -1,0 +1,189 @@
+<%- include('../partials/header') %>
+
+<% if (success) { %>
+  <div class="alert-banner success">
+    ✅ <%= success %>
+  </div>
+<% } %>
+<% if (error) { %>
+  <div class="alert-banner error">
+    ⚠️ <%= error %>
+  </div>
+<% } %>
+
+<!-- 4 Stat Cards Row -->
+<div class="stat-cards-grid">
+  
+  <!-- Card 1: Total Passes -->
+  <div class="stat-card-box">
+    <div class="stat-icon-square beige">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+      </svg>
+    </div>
+    <div class="stat-info-content">
+      <div class="stat-num-val"><%= stats.totalAll %></div>
+      <div class="stat-title-label">TOTAL PASSES</div>
+      <div class="stat-sub-text">All time</div>
+    </div>
+  </div>
+
+  <!-- Card 2: Today's Passes -->
+  <div class="stat-card-box">
+    <div class="stat-icon-square beige">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+      </svg>
+    </div>
+    <div class="stat-info-content">
+      <div class="stat-num-val"><%= stats.todayCount %></div>
+      <div class="stat-title-label">TODAY'S PASSES</div>
+      <div class="stat-sub-text"><%= todayStr %></div>
+    </div>
+  </div>
+
+  <!-- Card 3: Total Revenue -->
+  <div class="stat-card-box">
+    <div class="stat-icon-square green">
+      <span>₹</span>
+    </div>
+    <div class="stat-info-content">
+      <div class="stat-num-val">₹<%= stats.totalRevenue %></div>
+      <div class="stat-title-label">TOTAL REVENUE</div>
+      <div class="stat-sub-text">All passes combined</div>
+    </div>
+  </div>
+
+  <!-- Card 4: Total Mineral -->
+  <div class="stat-card-box">
+    <div class="stat-icon-square blue">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 3c-.55 0-1 .45-1 1v1.07C7.61 5.57 5 8.47 5 12c0 3.87 3.13 7 7 7s7-3.13 7-7c0-3.53-2.61-6.43-6-6.93V4c0-.55-.45-1-1-1zm0 4c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5z"/>
+      </svg>
+    </div>
+    <div class="stat-info-content">
+      <div class="stat-num-val"><%= stats.totalMineral %></div>
+      <div class="stat-title-label">TOTAL MINERAL</div>
+      <div class="stat-sub-text">Metric Tonnes</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Recent Passes Table Panel -->
+<div class="content-panel">
+  
+  <div class="panel-header">
+    <div class="panel-title-with-dot">
+      <div class="status-dot"></div>
+      <span>Recent Passes</span>
+    </div>
+
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <a href="/admin/passes/new" class="btn-primary-blue" style="padding: 5px 12px; font-size: 12.5px;">
+        ➕ New Pass
+      </a>
+      <a href="/admin/passes" class="btn-view-all">
+        View All &rarr;
+      </a>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="haryana-table">
+      <thead>
+        <tr>
+          <th>RAWAANA NO.</th>
+          <th>VEHICLE</th>
+          <th>TRADER</th>
+          <th>MINERAL</th>
+          <th>WEIGHT (MT)</th>
+          <th>TOTAL PRICE</th>
+          <th>STATUS</th>
+          <th style="text-align: center;">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (passes.length === 0) { %>
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 36px; color: #64748b;">
+              No passes generated yet. Click "New Pass" to issue a mineral transit pass.
+            </td>
+          </tr>
+        <% } %>
+
+        <% passes.forEach(pass => { 
+          const isExpired = pass.validUntil && new Date(pass.validUntil) < new Date();
+          const price = pass.totalAmount || ((pass.netWeight || 0) * (pass.ratePerMT || 350) * 1.05);
+        %>
+          <tr>
+            <!-- 1. Pass Number Link -->
+            <td>
+              <a href="/pass/<%= pass.passNumber %>" target="_blank" class="pass-no-link" title="Open Pass Document">
+                <%= pass.passNumber %>
+              </a>
+            </td>
+
+            <!-- 2. Vehicle Reg -->
+            <td>
+              <span class="vehicle-text"><%= pass.vehicleNumber %></span>
+            </td>
+
+            <!-- 3. Trader Details -->
+            <td>
+              <div class="trader-name-cell">
+                <%= pass.traderName %>
+                <div class="trader-loc-sub"><%= pass.location %></div>
+              </div>
+            </td>
+
+            <!-- 4. Mineral -->
+            <td><%= pass.mineralType %></td>
+
+            <!-- 5. Weight -->
+            <td><%= Number(pass.netWeight).toFixed(2) %></td>
+
+            <!-- 6. Total Price -->
+            <td>
+              <span class="price-text-green">
+                ₹<%= Number(price).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </span>
+            </td>
+
+            <!-- 7. Status Pill -->
+            <td>
+              <% if (isExpired && pass.status !== 'Cancelled') { %>
+                <span class="status-pill-red">Expired</span>
+              <% } else { %>
+                <span class="status-pill-green">Rawaana Active</span>
+              <% } %>
+            </td>
+
+            <!-- 8. Actions (View / Edit / Print) -->
+            <td>
+              <div class="actions-cell" style="justify-content: center;">
+                <!-- 👁️ View Pass Document directly -->
+                <a href="/pass/<%= pass.passNumber %>" target="_blank" class="btn-icon-sq" title="View Pass Document (Public Link)">
+                  👁️
+                </a>
+
+                <!-- ✏️ Edit Pass -->
+                <a href="/admin/passes/<%= pass._id %>/edit" class="btn-icon-sq" title="Edit Pass">
+                  ✏️
+                </a>
+
+                <!-- 🖨️ Print Pass -->
+                <a href="/pass/<%= pass.passNumber %>/print" target="_blank" class="btn-icon-sq" title="Print / PDF Pass">
+                  🖨️
+                </a>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

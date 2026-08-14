@@ -1,0 +1,263 @@
+/* Minimal Public Landing Page CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
+
+:root {
+  --primary-blue: #1e3a8a;
+  --accent-gold: #b45309;
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  --card-bg: rgba(255, 255, 255, 0.96);
+  --success-green: #15803d;
+  --danger-red: #b91c1c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #1e293b;
+  position: relative;
+}
+
+/* Background watermarks / subtle glow */
+.bg-glow {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.landing-container {
+  max-width: 540px;
+  width: 92%;
+  margin: auto;
+  padding: 40px 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* Verification Card */
+.verify-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Header */
+.card-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+  color: #ffffff;
+  padding: 24px 20px;
+  text-align: center;
+  border-bottom: 3px solid #d97706;
+}
+
+.header-emblem-wrap {
+  margin-bottom: 12px;
+}
+
+.header-emblem-wrap img {
+  width: 70px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.state-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fbbf24;
+  margin-bottom: 4px;
+}
+
+.dept-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* Card Body */
+.card-body {
+  padding: 30px 24px;
+}
+
+.verification-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.badge-status {
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-status.confirmed, .badge-status.active {
+  background: #dcfce7;
+  color: var(--success-green);
+  border: 1px solid #86efac;
+}
+
+.badge-status.expired, .badge-status.cancelled {
+  background: #fee2e2;
+  color: var(--danger-red);
+  border: 1px solid #fca5a5;
+}
+
+/* Summary Grid */
+.summary-grid {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.summary-row:first-child {
+  padding-top: 4px;
+}
+
+.summary-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.summary-val.highlight-pass {
+  color: #1e40af;
+  letter-spacing: 0.5px;
+}
+
+.summary-val.highlight-vehicle {
+  background: #fef08a;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #ca8a04;
+}
+
+/* Notice box */
+.info-notice {
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 12.5px;
+  color: #1e40af;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+/* Primary Action Button (View Printed Pass) */
+.action-wrapper {
+  text-align: center;
+}
+
+.btn-view-pass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  transition: all 0.25s ease;
+}
+
+.btn-view-pass:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
+}
+
+.btn-view-pass svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Card Footer */
+.card-footer {
+  background: #f1f5f9;
+  padding: 14px 20px;
+  text-align: center;
+  font-size: 11.5px;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+}
+
+.card-footer a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}

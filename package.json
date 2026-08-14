@@ -1,0 +1,33 @@
+{
+  "name": "rajasthan-mineral-pass-management",
+  "version": "1.0.0",
+  "description": "Mineral Transport Pass Management System for Rajasthan Mines & Geology Department",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "rajasthan",
+    "mines",
+    "etransit-pass",
+    "erawaana",
+    "pass-management"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.3",
+    "compression": "^1.8.1",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "qrcode": "^1.5.4"
+  }
+}

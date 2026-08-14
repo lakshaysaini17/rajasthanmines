@@ -1,0 +1,182 @@
+<%- include('../partials/header') %>
+
+<% if (success) { %>
+  <div class="alert-banner success">
+    ✅ <%= success %>
+  </div>
+<% } %>
+<% if (error) { %>
+  <div class="alert-banner error">
+    ⚠️ <%= error %>
+  </div>
+<% } %>
+
+<div class="content-panel">
+  
+  <div class="panel-header">
+    <div class="panel-title-with-dot">
+      <div class="status-dot"></div>
+      <span>All Mineral Transit Passes</span>
+    </div>
+
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <a href="/admin/export/csv" class="btn-view-all" style="background: #f0fdf4; color: #166534; border-color: #bbf7d0;">
+        📥 Export CSV
+      </a>
+      <a href="/admin/passes/new" class="btn-primary-blue" style="padding: 5px 12px; font-size: 12.5px;">
+        ➕ New Pass
+      </a>
+    </div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div style="padding: 14px 20px; background: #f8fafc; border-bottom: 1px solid var(--border-color);">
+    <form method="GET" action="/admin/passes" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+      <input type="text" name="q" value="<%= filters.q %>" placeholder="Search Rawaana No, Vehicle, Trader, Consignee..." class="form-control-input" style="min-width: 260px;">
+
+      <select name="status" class="form-control-input">
+        <option value="All" <%= filters.status === 'All' ? 'selected' : '' %>>All Statuses</option>
+        <option value="Confirmed" <%= filters.status === 'Confirmed' ? 'selected' : '' %>>Confirmed / Active</option>
+        <option value="In Transit" <%= filters.status === 'In Transit' ? 'selected' : '' %>>In Transit</option>
+        <option value="Completed" <%= filters.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+        <option value="Expired" <%= filters.status === 'Expired' ? 'selected' : '' %>>Expired</option>
+      </select>
+
+      <% if (mineralsList && mineralsList.length > 0) { %>
+        <select name="mineral" class="form-control-input">
+          <option value="All" <%= filters.mineral === 'All' ? 'selected' : '' %>>All Minerals</option>
+          <% mineralsList.forEach(m => { %>
+            <option value="<%= m %>" <%= filters.mineral === m ? 'selected' : '' %>><%= m %></option>
+          <% }) %>
+        </select>
+      <% } %>
+
+      <button type="submit" class="btn-primary-blue" style="padding: 8px 16px; font-size: 13px;">Filter</button>
+      <% if (filters.q || filters.status !== 'All' || filters.mineral !== 'All') { %>
+        <a href="/admin/passes" style="font-size: 12.5px; color: #64748b; text-decoration: none; margin-left: 6px;">Clear</a>
+      <% } %>
+    </form>
+  </div>
+
+  <!-- Passes Table -->
+  <div class="table-wrap">
+    <table class="haryana-table">
+      <thead>
+        <tr>
+          <th>RAWAANA NO.</th>
+          <th>VEHICLE</th>
+          <th>TRADER</th>
+          <th>MINERAL</th>
+          <th>WEIGHT (MT)</th>
+          <th>TOTAL PRICE</th>
+          <th>VALID UNTIL</th>
+          <th>STATUS</th>
+          <th style="text-align: center;">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (passes.length === 0) { %>
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 40px; color: #64748b;">
+              No passes found matching your filter criteria.
+            </td>
+          </tr>
+        <% } %>
+
+        <% passes.forEach(pass => { 
+          const isExpired = pass.validUntil && new Date(pass.validUntil) < new Date();
+          const price = pass.totalAmount || ((pass.netWeight || 0) * (pass.ratePerMT || 350) * 1.05);
+        %>
+          <tr>
+            <!-- 1. Pass Number Link -->
+            <td>
+              <a href="/pass/<%= pass.passNumber %>" target="_blank" class="pass-no-link" title="Open Official Pass">
+                <%= pass.passNumber %>
+              </a>
+            </td>
+
+            <!-- 2. Vehicle Reg -->
+            <td>
+              <span class="vehicle-text"><%= pass.vehicleNumber %></span>
+            </td>
+
+            <!-- 3. Trader -->
+            <td>
+              <div class="trader-name-cell">
+                <%= pass.traderName %>
+                <div class="trader-loc-sub"><%= pass.location %></div>
+              </div>
+            </td>
+
+            <!-- 4. Mineral -->
+            <td><%= pass.mineralType %></td>
+
+            <!-- 5. Weight -->
+            <td><%= Number(pass.netWeight).toFixed(2) %></td>
+
+            <!-- 6. Price -->
+            <td>
+              <span class="price-text-green">
+                ₹<%= Number(price).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </span>
+            </td>
+
+            <!-- 7. Valid Until -->
+            <td style="font-size: 11.5px; color: #475569; white-space: nowrap;">
+              <%= pass.formatDateOfficial(pass.validUntil) %>
+            </td>
+
+            <!-- 8. Status -->
+            <td>
+              <% if (isExpired && pass.status !== 'Cancelled') { %>
+                <span class="status-pill-red">Expired</span>
+              <% } else { %>
+                <span class="status-pill-green">Rawaana Active</span>
+              <% } %>
+            </td>
+
+            <!-- 9. Actions -->
+            <td>
+              <div class="actions-cell" style="justify-content: center;">
+                <a href="/pass/<%= pass.passNumber %>" target="_blank" class="btn-icon-sq" title="View Pass">
+                  👁️
+                </a>
+                <a href="/admin/passes/<%= pass._id %>/edit" class="btn-icon-sq" title="Edit Pass">
+                  ✏️
+                </a>
+                <a href="/pass/<%= pass.passNumber %>/print" target="_blank" class="btn-icon-sq" title="Print Pass">
+                  🖨️
+                </a>
+                <form action="/admin/passes/<%= pass._id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete Pass <%= pass.passNumber %>?');">
+                  <button type="submit" class="btn-icon-sq delete" title="Delete">
+                    🗑️
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <% if (pagination.totalPages > 1) { %>
+    <div style="padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border-top: 1px solid var(--border-color);">
+      <span style="font-size: 12px; color: #64748b;">
+        Showing page <%= pagination.page %> of <%= pagination.totalPages %> (<%= pagination.totalItems %> passes)
+      </span>
+      <div style="display: flex; gap: 6px;">
+        <% if (pagination.page > 1) { %>
+          <a href="/admin/passes?page=<%= pagination.page - 1 %>&q=<%= filters.q %>&status=<%= filters.status %>&mineral=<%= filters.mineral %>" class="btn-view-all">Previous</a>
+        <% } %>
+        <% if (pagination.page < pagination.totalPages) { %>
+          <a href="/admin/passes?page=<%= pagination.page + 1 %>&q=<%= filters.q %>&status=<%= filters.status %>&mineral=<%= filters.mineral %>" class="btn-view-all">Next</a>
+        <% } %>
+      </div>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include('../partials/footer') %>

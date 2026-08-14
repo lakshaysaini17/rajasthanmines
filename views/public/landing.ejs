@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="icon" type="image/svg+xml" href="/images/emblem.svg">
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <div class="landing-container">
+    <div class="verify-card">
+      
+      <!-- Official Header -->
+      <div class="card-header">
+        <div class="header-emblem-wrap">
+          <img src="/images/emblem.svg" alt="Emblem of Rajasthan">
+        </div>
+        <div class="state-title">Government of Rajasthan</div>
+        <div class="dept-name">Department of Mines &amp; Geology</div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="card-body">
+        
+        <!-- Status Tag -->
+        <div class="verification-tag">
+          <span class="badge-status <%= isExpired ? 'expired' : 'confirmed' %>">
+            <% if (isExpired) { %>
+              ⚠️ Expired Pass
+            <% } else { %>
+              ✅ Verified <%= displayStatus %>
+            <% } %>
+          </span>
+        </div>
+
+        <!-- Minimal Summary Grid (Pass No, Vehicle No, Status) -->
+        <div class="summary-grid">
+          <div class="summary-row">
+            <span class="summary-label">Transit Pass No</span>
+            <span class="summary-val highlight-pass"><%= pass.passNumber %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Vehicle Number</span>
+            <span class="summary-val highlight-vehicle"><%= pass.vehicleNumber %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Pass Status</span>
+            <span class="summary-val"><%= displayStatus %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">Valid Until</span>
+            <span class="summary-val" style="font-size: 13.5px;"><%= formattedExpiry %></span>
+          </div>
+        </div>
+
+        <!-- Official verification instruction -->
+        <div class="info-notice">
+          ℹ️ <strong>Official Notice:</strong> Full mineral consignment details, weighbridge telemetry, driver records, and security camera captures are secured in the official printed transit document.
+        </div>
+
+        <!-- Primary Action: View Printed Pass (Opens in new tab) -->
+        <div class="action-wrapper">
+          <a href="<%= printUrl %>" target="_blank" rel="noopener" class="btn-view-pass">
+            <svg viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+            View Printed Pass
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Card Footer -->
+      <div class="card-footer">
+        Official eTransit Verification Portal • <a href="http://mines.rajasthan.gov.in" target="_blank" rel="noopener">mines.rajasthan.gov.in</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

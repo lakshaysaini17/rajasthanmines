@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/print-pass.css">
+  <link rel="icon" type="image/png" href="/images/emblem.png">
+</head>
+<body>
+
+  <!-- Minimal floating Print Button (Discreet, hidden on print/PDF) -->
+  <div class="minimal-print-bar">
+    <button type="button" class="btn-print-pill" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+      </svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+  <!-- Document Page Container -->
+  <div class="document-page">
+    <div class="pass-box">
+
+      <!-- Header: Logo, Department Title, QR Code -->
+      <div class="pass-header">
+        <div class="header-emblem">
+          <img src="/images/emblem.png" alt="Rajasthan State Emblem">
+        </div>
+        <div class="header-titles">
+          <h1 class="state-name">Government of Rajasthan</h1>
+          <h2 class="dept-name">DEPARTMENT OF MINING &amp; GEOLOGY, RAJASTHAN</h2>
+        </div>
+        <div class="header-qr">
+          <img src="<%= qrCodeDataUrl %>" alt="Transit Pass QR Code">
+        </div>
+      </div>
+
+      <!-- Vehicle Banner -->
+      <div class="pass-banner">
+        <span class="highlight-text"><%= pass.vehicleNumber %></span> is having Transit Pass No. <span class="highlight-text"><%= pass.passNumber %></span> (<span class="status-name"><%= pass.status %></span>) which expires on <span class="highlight-text"><%= formattedExpiry %></span>
+      </div>
+
+      <!-- Two-Column Details Grid -->
+      <div class="pass-grid">
+        
+        <!-- Left Details -->
+        <div class="grid-col col-left">
+          <div class="row">
+            <div class="label">Generated on</div>
+            <div class="sep">:</div>
+            <div class="val"><%= formattedGenerated %></div>
+          </div>
+          <div class="row">
+            <div class="label">Confirmed on</div>
+            <div class="sep">:</div>
+            <div class="val"><%= formattedConfirmed %></div>
+          </div>
+          <div class="row">
+            <div class="label">Name of the<br>Trader/Dealer/Stockist/Pulverizer<br>Unit Holder</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.traderName %></div>
+          </div>
+          <div class="row">
+            <div class="label">GST</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.traderGst %></div>
+          </div>
+          <div class="row">
+            <div class="label">Location</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.location %></div>
+          </div>
+          <div class="row">
+            <div class="label">Mineral</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.mineralType %></div>
+          </div>
+          <div class="row">
+            <div class="label">Net Mineral Weight</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.netWeight %> MT</div>
+          </div>
+          <div class="row">
+            <div class="label">Tare Weight</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.tareWeight %> MT</div>
+          </div>
+          <div class="row">
+            <div class="label">Driver Details</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.driverName %>( Mob No : <%= pass.driverMobile %> )</div>
+          </div>
+        </div>
+
+        <!-- Right Details -->
+        <div class="grid-col col-right">
+          <div class="row">
+            <div class="label">Consignee Name</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.consigneeName %></div>
+          </div>
+          <div class="row">
+            <div class="label">Consignee Address</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.consigneeAddress %></div>
+          </div>
+          <div class="row">
+            <div class="label">Approximate Distance</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.approxDistance %></div>
+          </div>
+          <div class="row">
+            <div class="label">Weigh Bridge</div>
+            <div class="sep">:</div>
+            <div class="val"><%= pass.weighBridge %></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Vehicle Photos Section -->
+      <div class="pass-photos">
+        <div class="photo-frame">
+          <div class="photo-badge">Front Image</div>
+          <img src="<%= pass.frontImage %>" alt="Front Camera Image">
+        </div>
+        <div class="photo-frame">
+          <div class="photo-badge">Side Image</div>
+          <img src="<%= pass.sideImage %>" alt="Side Camera Image">
+        </div>
+      </div>
+
+      <!-- Bottom Verification Notice -->
+      <div class="pass-footer">
+        Please scan the QR code or visit <a href="http://mines.rajasthan.gov.in/" target="_blank" rel="noopener">http://mines.rajasthan.gov.in/</a> to check online eTransit Pass
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

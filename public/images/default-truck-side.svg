@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="nightSky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="truckBed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eab308"/>
+      <stop offset="40%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#854d0e"/>
+    </linearGradient>
+    <linearGradient id="minerals" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="30%" stop-color="#64748b"/>
+      <stop offset="70%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="640" height="480" fill="url(#nightSky2)"/>
+
+  <!-- High angle CCTV lighting beam -->
+  <polygon points="0,0 200,480 500,480 300,0" fill="#f8fafc" opacity="0.04"/>
+
+  <!-- Weighbridge platform -->
+  <polygon points="0,310 640,310 640,480 0,480" fill="#1e293b"/>
+  <line x1="0" y1="350" x2="640" y2="350" stroke="#475569" stroke-width="2" stroke-dasharray="12,8"/>
+
+  <!-- Heavy Dump Tipper Body (Angled Side Top View) -->
+  <!-- Minerals Heap (Masonary Stone / Gitti) -->
+  <path d="M120 180 Q220 120 340 135 Q460 125 560 190 L550 220 L130 220 Z" fill="url(#minerals)"/>
+  
+  <!-- Mineral stones texture simulation -->
+  <circle cx="200" cy="160" r="12" fill="#475569"/>
+  <circle cx="230" cy="150" r="16" fill="#334155"/>
+  <circle cx="280" cy="145" r="14" fill="#64748b"/>
+  <circle cx="330" cy="155" r="18" fill="#475569"/>
+  <circle cx="380" cy="145" r="15" fill="#334155"/>
+  <circle cx="430" cy="160" r="16" fill="#64748b"/>
+  <circle cx="480" cy="170" r="14" fill="#475569"/>
+  <circle cx="250" cy="175" r="15" fill="#1e293b"/>
+  <circle cx="360" cy="180" r="16" fill="#334155"/>
+  <circle cx="410" cy="178" r="14" fill="#475569"/>
+
+  <!-- Yellow Tipper Body Container -->
+  <polygon points="100,200 580,200 560,310 120,310" fill="url(#truckBed)" stroke="#0f172a" stroke-width="3"/>
+  <line x1="200" y1="200" x2="210" y2="310" stroke="#713f12" stroke-width="3"/>
+  <line x1="300" y1="200" x2="305" y2="310" stroke="#713f12" stroke-width="3"/>
+  <line x1="400" y1="200" x2="395" y2="310" stroke="#713f12" stroke-width="3"/>
+  <line x1="500" y1="200" x2="490" y2="310" stroke="#713f12" stroke-width="3"/>
+
+  <!-- Truck Cab Front Nose peaking out on left -->
+  <polygon points="60,240 105,200 120,310 60,310" fill="#cbd5e1" stroke="#0f172a" stroke-width="2"/>
+
+  <!-- Heavy Wheels & Axles -->
+  <circle cx="180" cy="330" r="32" fill="#0f172a" stroke="#334155" stroke-width="6"/>
+  <circle cx="180" cy="330" r="14" fill="#64748b"/>
+  <circle cx="260" cy="330" r="32" fill="#0f172a" stroke="#334155" stroke-width="6"/>
+  <circle cx="260" cy="330" r="14" fill="#64748b"/>
+  <circle cx="440" cy="330" r="32" fill="#0f172a" stroke="#334155" stroke-width="6"/>
+  <circle cx="440" cy="330" r="14" fill="#64748b"/>
+  <circle cx="510" cy="330" r="32" fill="#0f172a" stroke="#334155" stroke-width="6"/>
+  <circle cx="510" cy="330" r="14" fill="#64748b"/>
+
+  <!-- CCTV Metadata Overlay -->
+  <rect x="0" y="0" width="640" height="28" fill="#000000" opacity="0.75"/>
+  <text x="15" y="18" font-family="'Courier New', monospace" font-size="13" font-weight="bold" fill="#22c55e">WB-CAM02 [SIDE / TOP] • 2026-07-02 02:21:36</text>
+  <text x="625" y="18" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#e2e8f0" text-anchor="end">FPS: 25.0 REC ●</text>
+
+  <!-- Side Image badge placeholder -->
+  <rect x="16" y="40" width="115" height="30" rx="4" fill="#000000" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="73" y="60" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Side Image</text>
+
+  <text x="625" y="465" font-family="'Courier New', monospace" font-size="11" fill="#94a3b8" text-anchor="end">CP IP Cam</text>
+</svg>

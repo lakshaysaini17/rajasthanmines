@@ -1,0 +1,221 @@
+<%- include('../partials/header') %>
+
+<div class="content-panel">
+  
+  <div class="panel-header">
+    <div class="panel-title-with-dot">
+      <div class="status-dot"></div>
+      <span><%= isEdit ? 'Edit Transit Pass - ' + pass.passNumber : 'Generate New Mineral eTransit Pass' %></span>
+    </div>
+
+    <a href="/admin/passes" class="btn-view-all">
+      &larr; Back to Passes
+    </a>
+  </div>
+
+  <% if (error) { %>
+    <div style="padding: 16px 20px 0 20px;">
+      <div class="alert-banner error">
+        ⚠️ <%= error %>
+      </div>
+    </div>
+  <% } %>
+
+  <form action="<%= isEdit ? '/admin/passes/' + pass._id + '/edit' : '/admin/passes' %>" method="POST" enctype="multipart/form-data" style="padding: 20px;">
+    
+    <!-- Section 1 -->
+    <div style="font-size: 12.5px; font-weight: 600; color: #0a2540; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 14px;">
+      1. Transit Pass &amp; Timings
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group-item">
+        <label for="passNumber">Transit Pass Number (Rawaana No.) *</label>
+        <input type="text" id="passNumber" name="passNumber" class="form-control-input" value="<%= pass.passNumber %>" required style="font-weight: 500; color: #2563eb;">
+      </div>
+
+      <div class="form-group-item">
+        <label for="vehicleNumber">Vehicle Registration Number *</label>
+        <input type="text" id="vehicleNumber" name="vehicleNumber" class="form-control-input" value="<%= pass.vehicleNumber || '' %>" placeholder="e.g. HR55AT1748" required style="font-weight: 600; text-transform: uppercase;">
+      </div>
+
+      <div class="form-group-item">
+        <label for="status">Trip / Pass Status *</label>
+        <select id="status" name="status" class="form-control-input">
+          <option value="Confirmed" <%= pass.status === 'Confirmed' ? 'selected' : '' %>>Confirmed / Active</option>
+          <option value="Generated" <%= pass.status === 'Generated' ? 'selected' : '' %>>Generated</option>
+          <option value="In Transit" <%= pass.status === 'In Transit' ? 'selected' : '' %>>In Transit</option>
+          <option value="Completed" <%= pass.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+          <option value="Expired" <%= pass.status === 'Expired' ? 'selected' : '' %>>Expired</option>
+        </select>
+      </div>
+
+      <div class="form-group-item">
+        <label for="generatedAt">Generated Date &amp; Time</label>
+        <input type="datetime-local" id="generatedAt" name="generatedAt" class="form-control-input" value="<%= pass.generatedAt %>" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="confirmedAt">Confirmed Date &amp; Time</label>
+        <input type="datetime-local" id="confirmedAt" name="confirmedAt" class="form-control-input" value="<%= pass.confirmedAt %>" required>
+      </div>
+
+      <div class="form-group-item">
+        <label for="validUntil">Expires On (Validity) *</label>
+        <input type="datetime-local" id="validUntil" name="validUntil" class="form-control-input" value="<%= pass.validUntil %>" required style="font-weight: 500;">
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div style="font-size: 12.5px; font-weight: 600; color: #0a2540; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 14px; margin-top: 14px;">
+      2. Trader / Unit Holder &amp; Mine Location
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group-item" style="grid-column: span 2;">
+        <label for="traderName">Name of Trader / Dealer / Unit Holder *</label>
+        <input type="text" id="traderName" name="traderName" class="form-control-input" value="<%= pass.traderName || '' %>" required placeholder="e.g. JAGDAMBA GRANITE & MARBLE">
+      </div>
+
+      <div class="form-group-item">
+        <label for="traderGst">Trader GST *</label>
+        <input type="text" id="traderGst" name="traderGst" class="form-control-input" value="<%= pass.traderGst || '' %>" required placeholder="e.g. 08ACOPM7905J1Z2" style="text-transform: uppercase;">
+      </div>
+
+      <div class="form-group-item" style="grid-column: span 3;">
+        <label for="location">Mine / Stockyard Location *</label>
+        <input type="text" id="location" name="location" class="form-control-input" value="<%= pass.location || '' %>" required placeholder="e.g. DOKAN(Dokan/Neemkathana/Sikar)">
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div style="font-size: 12.5px; font-weight: 600; color: #0a2540; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 14px; margin-top: 14px;">
+      3. Mineral Specifications, Weight &amp; Royalty Calculation
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group-item">
+        <label for="mineralType">Mineral Type *</label>
+        <input type="text" id="mineralType" name="mineralType" class="form-control-input" value="<%= pass.mineralType || '' %>" required placeholder="e.g. MasonaryStone (Gitti)">
+      </div>
+
+      <div class="form-group-item">
+        <label for="netWeight">Net Mineral Weight (MT) *</label>
+        <input type="number" step="0.01" min="0" id="netWeight" name="netWeight" class="form-control-input" value="<%= pass.netWeight !== undefined ? pass.netWeight : '' %>" required placeholder="0.00">
+      </div>
+
+      <div class="form-group-item">
+        <label for="tareWeight">Tare Weight (MT) *</label>
+        <input type="number" step="0.01" min="0" id="tareWeight" name="tareWeight" class="form-control-input" value="<%= pass.tareWeight !== undefined ? pass.tareWeight : '' %>" required placeholder="0.00">
+      </div>
+
+      <div class="form-group-item">
+        <label for="ratePerMT">Rate per MT (₹)</label>
+        <input type="number" step="0.01" id="ratePerMT" name="ratePerMT" class="form-control-input" value="<%= pass.ratePerMT !== undefined ? pass.ratePerMT : '' %>" placeholder="0.00">
+      </div>
+
+      <div class="form-group-item">
+        <label for="royaltyTaxPercent">Royalty / Tax (%)</label>
+        <input type="number" step="0.1" id="royaltyTaxPercent" name="royaltyTaxPercent" class="form-control-input" value="<%= pass.royaltyTaxPercent !== undefined ? pass.royaltyTaxPercent : '' %>" placeholder="0.0">
+      </div>
+
+      <!-- Live Calculation Box -->
+      <div class="form-group-item">
+        <label>Calculated Total Price</label>
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 12px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+            <span style="color: #64748b;">Gross Weight:</span>
+            <span id="grossWeightDisplay" style="font-weight: 500;">0.00 MT</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-weight: 600; color: #15803d; border-top: 1px dashed #cbd5e1; padding-top: 3px; font-size: 13px;">
+            <span>Total Price:</span>
+            <span id="totalAmountDisplay">₹ 0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div style="font-size: 12.5px; font-weight: 600; color: #0a2540; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 14px; margin-top: 14px;">
+      4. Consignee, Weighbridge &amp; Driver
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group-item">
+        <label for="driverName">Driver Name *</label>
+        <input type="text" id="driverName" name="driverName" class="form-control-input" value="<%= pass.driverName || '' %>" required placeholder="e.g. SONU">
+      </div>
+
+      <div class="form-group-item">
+        <label for="driverMobile">Driver Mobile *</label>
+        <input type="text" id="driverMobile" name="driverMobile" class="form-control-input" value="<%= pass.driverMobile || '' %>" required placeholder="e.g. 7028221112">
+      </div>
+
+      <div class="form-group-item">
+        <label for="approxDistance">Approximate Distance (KM) *</label>
+        <input type="number" id="approxDistance" name="approxDistance" class="form-control-input" value="<%= pass.approxDistance || '' %>" required placeholder="e.g. 351">
+      </div>
+
+      <div class="form-group-item" style="grid-column: span 3;">
+        <label for="consigneeName">Consignee Name *</label>
+        <input type="text" id="consigneeName" name="consigneeName" class="form-control-input" value="<%= pass.consigneeName || '' %>" required placeholder="e.g. SHREE BALAJI INFRASTRUCTURE & CONSTRUCTION CO.">
+      </div>
+
+      <div class="form-group-item" style="grid-column: span 3;">
+        <label for="consigneeAddress">Consignee Address *</label>
+        <input type="text" id="consigneeAddress" name="consigneeAddress" class="form-control-input" value="<%= pass.consigneeAddress || '' %>" required placeholder="e.g. PLOT NO. 42-B, SECTOR 8, INDUSTRIAL AREA, BHIWADI">
+      </div>
+
+      <div class="form-group-item" style="grid-column: span 3;">
+        <label for="weighBridge">Weighbridge Name &amp; Code *</label>
+        <input type="text" id="weighBridge" name="weighBridge" class="form-control-input" value="<%= pass.weighBridge || '' %>" required placeholder="e.g. JAGDAMBA GRANITE AND MARBLE DOKAN V4(2019052502219)/VILLAGE DOKAN">
+      </div>
+    </div>
+
+    <!-- Section 5: Photos -->
+    <div style="font-size: 12.5px; font-weight: 600; color: #0a2540; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 14px; margin-top: 14px;">
+      5. CCTV Weighbridge Camera Images
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group-item">
+        <label for="frontImageFile">Front Camera Photo</label>
+        <input type="file" id="frontImageFile" name="frontImageFile" class="form-control-input" accept="image/*">
+        <input type="hidden" name="frontImage" value="<%= pass.frontImage || '' %>">
+        <div style="margin-top: 6px; height: 110px; border: 1px dashed #cbd5e1; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 11.5px;">
+          <% if (pass.frontImage) { %>
+            <img id="frontPreviewImg" src="<%= pass.frontImage %>" alt="Front Preview" style="width: 100%; height: 100%; object-fit: cover;">
+          <% } else { %>
+            <img id="frontPreviewImg" src="" alt="Front Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+            <span id="frontPlaceholder">📷 Select Front Image</span>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="form-group-item">
+        <label for="sideImageFile">Side Camera Photo</label>
+        <input type="file" id="sideImageFile" name="sideImageFile" class="form-control-input" accept="image/*">
+        <input type="hidden" name="sideImage" value="<%= pass.sideImage || '' %>">
+        <div style="margin-top: 6px; height: 110px; border: 1px dashed #cbd5e1; border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 11.5px;">
+          <% if (pass.sideImage) { %>
+            <img id="sidePreviewImg" src="<%= pass.sideImage %>" alt="Side Preview" style="width: 100%; height: 100%; object-fit: cover;">
+          <% } else { %>
+            <img id="sidePreviewImg" src="" alt="Side Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+            <span id="sidePlaceholder">📷 Select Side Image</span>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+      <a href="/admin/dashboard" class="btn-view-all" style="padding: 7px 14px;">Cancel</a>
+      <button type="submit" class="btn-primary-blue">
+        <%= isEdit ? 'Update Transit Pass' : 'Issue Transit Pass' %>
+      </button>
+    </div>
+
+  </form>
+
+</div>
+
+<%- include('../partials/footer') %>
