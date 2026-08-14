@@ -190,7 +190,7 @@ async function startServer() {
   process.on('SIGINT', () => handleGracefulShutdown('SIGINT'));
 }
 
-// Seed Function
+// Seed Admin User if not present
 async function seedInitialData() {
   try {
     const adminUsername = (process.env.ADMIN_USERNAME || 'admin').toLowerCase();
@@ -205,44 +205,6 @@ async function seedInitialData() {
       });
       await admin.save();
       console.log(`✅ Default admin created in Atlas: ${adminUsername}`);
-    }
-
-    const samplePassNo = 'NLME1040249202';
-    const existingPass = await Pass.findOne({ passNumber: samplePassNo });
-    if (!existingPass) {
-      const genDate = new Date('2026-07-02T02:17:58+05:30');
-      const confDate = new Date('2026-07-02T02:21:36+05:30');
-      const expDate = new Date('2026-07-02T22:17:58+05:30');
-
-      const samplePass = new Pass({
-        passNumber: samplePassNo,
-        vehicleNumber: 'HR55AT1748',
-        status: 'Confirmed',
-        generatedAt: genDate,
-        confirmedAt: confDate,
-        validUntil: expDate,
-        traderName: 'JAGDAMBA GRANITE & MARBLE',
-        traderGst: '08ACOPM7905J1Z2',
-        location: 'DOKAN(Dokan/Neemkathana/Sikar)',
-        mineralType: 'MasonaryStone (Gitti)',
-        netWeight: 44.35,
-        tareWeight: 13.50,
-        grossWeight: 57.85,
-        ratePerMT: 350,
-        royaltyTaxPercent: 5,
-        taxAmount: 776.13,
-        totalAmount: 16298.63,
-        driverName: 'SONU',
-        driverMobile: '7028221112',
-        consigneeName: 'Dxxx xxxx xxxxx xxx xxx xxxxxxxxxxxxxxxx)',
-        consigneeAddress: 'Nxxxxx xxxxxx xxxxxx xxxxxx xxxxx xxxxxxxx',
-        approxDistance: 351,
-        weighBridge: 'JAGDAMBA GRANITE AND MARBLE DOKAN V4(2019052502219)/VILLAGE DOKAN',
-        frontImage: '/images/default-truck-front.svg',
-        sideImage: '/images/default-truck-side.svg'
-      });
-      await samplePass.save();
-      console.log(`✅ Reference pass seeded in Atlas: ${samplePassNo}`);
     }
   } catch (seedErr) {
     console.error('Seed error:', seedErr);
