@@ -261,6 +261,22 @@ body {
   z-index: 2;
 }
 
+.photo-time-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 2px;
+  z-index: 2;
+  font-family: 'Roboto', monospace, sans-serif;
+  letter-spacing: 0.2px;
+}
+
 /* 5. Footer Notice */
 .pass-footer {
   padding-top: 6px;
