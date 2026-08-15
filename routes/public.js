@@ -49,6 +49,7 @@ async function renderDirectPass(req, res) {
       qrCodeDataUrl,
       passPublicUrl,
       formattedGenerated: pass.formatDateOfficial(pass.generatedAt),
+      formattedGeneratedNoSec: pass.formatDateWithoutSeconds ? pass.formatDateWithoutSeconds(pass.generatedAt) : pass.formatDateOfficial(pass.generatedAt),
       formattedConfirmed: pass.formatDateOfficial(pass.confirmedAt),
       formattedExpiry: pass.formatDateOfficial(pass.validUntil)
     });
