@@ -8,9 +8,15 @@
       <span><%= isEdit ? 'Edit Transit Pass - ' + pass.passNumber : 'Generate New Mineral eTransit Pass' %></span>
     </div>
 
-    <a href="/admin/passes" class="btn-view-all">
-      &larr; Back to Passes
-    </a>
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <a href="/admin/passes" class="btn-view-all" style="padding: 7px 14px;">
+        &larr; Back to Passes
+      </a>
+      <button type="submit" form="passForm" class="btn-primary-blue" style="padding: 7px 18px; display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+        <span><%= isEdit ? 'Update Transit Pass' : 'Issue Transit Pass' %></span>
+      </button>
+    </div>
   </div>
 
   <% if (error) { %>
@@ -21,7 +27,7 @@
     </div>
   <% } %>
 
-  <form action="<%= isEdit ? '/admin/passes/' + pass._id + '/edit' : '/admin/passes' %>" method="POST" enctype="multipart/form-data" style="padding: 20px;">
+  <form id="passForm" action="<%= isEdit ? '/admin/passes/' + pass._id + '/edit' : '/admin/passes' %>" method="POST" enctype="multipart/form-data" style="padding: 20px;">
     
     <!-- Section 1 -->
     <div style="font-size: 12.5px; font-weight: 600; color: #0a2540; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 14px;">
