@@ -43,11 +43,14 @@ async function renderDirectPass(req, res) {
       }
     });
 
+    const autoPrint = Boolean(req.path.endsWith('/print') || req.query.print === 'true' || req.query.print === '1');
+
     res.render('public/print-pass', {
       title: `eTransit Pass - ${pass.passNumber}`,
       pass,
       qrCodeDataUrl,
       passPublicUrl,
+      autoPrint,
       formattedGenerated: pass.formatDateOfficial(pass.generatedAt),
       formattedGeneratedNoSec: pass.formatDateWithoutSeconds ? pass.formatDateWithoutSeconds(pass.generatedAt) : pass.formatDateOfficial(pass.generatedAt),
       formattedConfirmed: pass.formatDateOfficial(pass.confirmedAt),

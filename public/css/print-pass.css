@@ -19,40 +19,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Minimalist Print Button Pill (Floating Top-Right) */
-.minimal-print-bar {
-  position: fixed;
-  top: 16px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.btn-print-pill {
-  background: #0f172a;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 7px 16px;
-  border-radius: 50px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
-}
-
-.btn-print-pill:hover {
-  background: #1e293b;
-  transform: translateY(-1px);
-}
-
 /* Page Document Wrapper - Fixed 800px PDF Geometry */
 .document-page {
   width: 800px;
   max-width: 800px;
-  margin: 28px auto;
+  margin: 20px auto;
   padding: 0;
 }
 
@@ -298,20 +269,10 @@ body {
     background-color: #f1f5f9;
   }
 
-  .minimal-print-bar {
-    top: 10px;
-    right: 12px;
-  }
-
-  .btn-print-pill {
-    padding: 5px 12px;
-    font-size: 11px;
-  }
-
   /* Automatically scale the 800px PDF document cleanly to viewport width */
   .document-page {
     width: 800px;
-    margin: 48px auto 10px auto;
+    margin: 12px auto;
     zoom: calc((100vw - 16px) / 800);
   }
 }
@@ -341,10 +302,6 @@ body {
     padding: 0 !important;
     margin: 0 !important;
     zoom: 1 !important;
-  }
-
-  .minimal-print-bar {
-    display: none !important;
   }
 
   .document-page {
