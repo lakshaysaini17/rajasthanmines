@@ -57,10 +57,10 @@
       <!-- Bottom Profile -->
       <div class="sidebar-footer">
         <div class="user-profile-row">
-          <div class="user-avatar-circle">AD</div>
+          <div class="user-avatar-circle"><%= (typeof user !== 'undefined' && user.name ? user.name.slice(0, 2).toUpperCase() : 'PV') %></div>
           <div class="user-details">
-            <div class="user-name">Administrator</div>
-            <div class="user-role">admin</div>
+            <div class="user-name"><%= (typeof user !== 'undefined' && user.name) ? user.name : 'Parveen' %></div>
+            <div class="user-role"><%= (typeof user !== 'undefined' && user.username) ? user.username : 'Parveen' %></div>
           </div>
         </div>
         <a href="/logout" class="logout-link">
@@ -81,7 +81,7 @@
         </div>
 
         <div class="topbar-right-user">
-          <div class="topbar-avatar">AD</div>
-          <div class="topbar-username">Administrator</div>
+          <div class="topbar-avatar"><%= (typeof user !== 'undefined' && user.name ? user.name.slice(0, 2).toUpperCase() : 'PV') %></div>
+          <div class="topbar-username"><%= (typeof user !== 'undefined' && user.name) ? user.name : 'Parveen' %></div>
         </div>
       </div>

@@ -191,24 +191,35 @@ async function startServer() {
   process.on('SIGINT', () => handleGracefulShutdown('SIGINT'));
 }
 
-// Seed Admin User if not present
+// Seed or update official Parveen User in MongoDB Atlas
 async function seedInitialData() {
   try {
-    const adminUsername = (process.env.ADMIN_USERNAME || 'admin').toLowerCase();
-    const existingAdmin = await User.findOne({ username: adminUsername });
-    if (!existingAdmin) {
-      const admin = new User({
-        username: adminUsername,
-        password: process.env.ADMIN_PASSWORD || 'admin123',
-        name: process.env.ADMIN_NAME || 'Administrator',
-        role: 'admin',
-        department: 'Department of Mines & Geology, Rajasthan'
-      });
-      await admin.save();
-      console.log(`✅ Default admin created in Atlas: ${adminUsername}`);
+    const adminUsername = (process.env.ADMIN_USERNAME || 'parveen').toLowerCase().trim();
+    const adminName = process.env.ADMIN_NAME || 'Parveen';
+
+    // Migrate any legacy 'admin' user to 'parveen'
+    const legacyAdmin = await User.findOne({ username: 'admin' });
+    if (legacyAdmin) {
+      legacyAdmin.username = adminUsername;
+      legacyAdmin.name = adminName;
+      await legacyAdmin.save();
+      console.log(`✅ Migrated legacy user to official username: ${adminUsername} (${adminName})`);
+    } else {
+      const existingUser = await User.findOne({ username: adminUsername });
+      if (!existingUser) {
+        const user = new User({
+          username: adminUsername,
+          password: process.env.ADMIN_PASSWORD || 'admin123',
+          name: adminName,
+          role: 'admin',
+          department: 'Department of Mines & Geology, Rajasthan'
+        });
+        await user.save();
+        console.log(`✅ Official admin created in Atlas: ${adminUsername} (${adminName})`);
+      }
     }
   } catch (seedErr) {
-    console.error('Seed error:', seedErr);
+    console.error('Seed/migration error:', seedErr);
   }
 }
 

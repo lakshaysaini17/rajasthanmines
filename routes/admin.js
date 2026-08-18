@@ -146,7 +146,7 @@ router.get('/dashboard', async (req, res) => {
     res.render('admin/dashboard', {
       title: 'Dashboard | Mines & Geology Rajasthan',
       activeMenu: 'dashboard',
-      user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
+      user: { name: req.session.name || 'Parveen', username: req.session.username || 'Parveen' },
       currentDateStr: getDashboardDateStr(),
       todayStr: todayISTFormatted,
       stats: {
@@ -201,7 +201,7 @@ router.get('/passes', async (req, res) => {
     res.render('admin/passes', {
       title: 'All Passes | Mines & Geology Rajasthan',
       activeMenu: 'passes',
-      user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
+      user: { name: req.session.name || 'Parveen', username: req.session.username || 'Parveen' },
       currentDateStr: getDashboardDateStr(),
       passes,
       mineralsList,
@@ -244,7 +244,7 @@ router.get('/passes/new', async (req, res) => {
     res.render('admin/form', {
       title: 'Generate New Pass | Mines & Geology Rajasthan',
       activeMenu: 'new-pass',
-      user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
+      user: { name: req.session.name || 'Parveen', username: req.session.username || 'Parveen' },
       currentDateStr: getDashboardDateStr(),
       isEdit: false,
       pass: {
@@ -340,7 +340,7 @@ router.post('/passes', upload.fields([
     res.render('admin/form', {
       title: 'Generate New Pass | Mines & Geology Rajasthan',
       activeMenu: 'new-pass',
-      user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
+      user: { name: req.session.name || 'Parveen', username: req.session.username || 'Parveen' },
       currentDateStr: getDashboardDateStr(),
       isEdit: false,
       pass: req.body,
@@ -365,7 +365,7 @@ router.get('/passes/:id/edit', async (req, res) => {
     res.render('admin/form', {
       title: `Edit Pass - ${pass.passNumber}`,
       activeMenu: 'passes',
-      user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
+      user: { name: req.session.name || 'Parveen', username: req.session.username || 'Parveen' },
       currentDateStr: getDashboardDateStr(),
       isEdit: true,
       pass: passObj,
@@ -461,7 +461,7 @@ router.get('/settings', (req, res) => {
   res.render('admin/settings', {
     title: 'Settings | Mines & Geology Rajasthan',
     activeMenu: 'settings',
-    user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
+    user: { name: req.session.name || 'Parveen', username: req.session.username || 'Parveen' },
     currentDateStr: getDashboardDateStr(),
     success: req.query.success || null,
     error: req.query.error || null
