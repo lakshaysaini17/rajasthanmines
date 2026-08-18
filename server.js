@@ -215,7 +215,7 @@ async function seedInitialData() {
       } else {
         const user = new User({
           username: adminUsername,
-          password: process.env.ADMIN_PASSWORD || 'Parveen123',
+          password: process.env.ADMIN_PASSWORD,
           name: adminName,
           role: 'admin',
           department: 'Department of Mines & Geology, Rajasthan'
