@@ -45,8 +45,12 @@ app.use(express.static(path.join(__dirname, 'public'), {
   etag: true
 }));
 
-// 2. Healthcheck & Uptime Monitoring Endpoint (/health & /ready)
-app.get('/health', async (req, res) => {
+// 2. Ultra-Fast Uptime Monitoring Endpoints (/ping & /health)
+app.all('/ping', (req, res) => {
+  res.status(200).send('pong');
+});
+
+app.all('/health', async (req, res) => {
   const startTime = Date.now();
   let dbStatus = 'disconnected';
   let dbLatencyMs = null;
@@ -150,20 +154,25 @@ async function startServer() {
   // Auto-seed Admin User & Sample Reference Pass in Atlas
   await seedInitialData();
 
-  // Start HTTP Server
-  const server = app.listen(PORT, () => {
+  // Start HTTP Server with explicit 0.0.0.0 binding for Cloud Containers (Render/AWS/Railway)
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n========================================================`);
     console.log(`🏛️  RAJASTHAN MINES & GEOLOGY E-TRANSIT PASS SYSTEM`);
     console.log(`========================================================`);
-    console.log(`🚀 Server running on:  http://localhost:${PORT}`);
+    console.log(`🚀 Server running on:  http://0.0.0.0:${PORT}`);
     console.log(`⏱️  Session Lifetime:  8 Hours (Work Shift)`);
     console.log(`⚡ Compression:        Enabled (Gzip/Brotli)`);
-    console.log(`🩺 Health Monitor:     http://localhost:${PORT}/health`);
+    console.log(`🩺 Health Monitor:     http://0.0.0.0:${PORT}/health`);
+    console.log(`🏓 Uptime Ping:        http://0.0.0.0:${PORT}/ping`);
     console.log(`☁️  Database:          MongoDB Atlas (${mongoose.connection.host})`);
     console.log(`📸 Image Storage:      Cloudinary CDN (${process.env.CLOUDINARY_CLOUD_NAME})`);
-    console.log(`🔐 Admin Login:        http://localhost:${PORT}/login`);
+    console.log(`🔐 Admin Login:        http://0.0.0.0:${PORT}/login`);
     console.log(`========================================================\n`);
   });
+
+  // Keep-Alive configuration to prevent reverse proxy 502 socket hang up (Cloudflare / Render / AWS ALB)
+  server.keepAliveTimeout = 65000; // 65 seconds
+  server.headersTimeout = 66000;   // 66 seconds
 
   // Graceful Shutdown Management
   function handleGracefulShutdown(signal) {
