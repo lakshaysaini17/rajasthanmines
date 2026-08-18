@@ -173,46 +173,63 @@ passSchema.statics.generatePassNumber = async function(prefix = 'NLME') {
   return newPassNumber;
 };
 
-// Formatted Date Helper for Rajasthan Official Pass format
+// Formatted Date Helper for Rajasthan Official Pass format (Strictly Indian Standard Time - Asia/Kolkata)
 passSchema.methods.formatDateOfficial = function(dateField) {
   if (!dateField) return 'N/A';
   const d = new Date(dateField);
   if (isNaN(d.getTime())) return 'N/A';
-  
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = months[d.getMonth()];
-  const year = d.getFullYear();
-  
-  let hours = d.getHours();
-  const minutes = String(d.getMinutes()).padStart(2, '0');
-  const seconds = String(d.getSeconds()).padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const strHours = String(hours).padStart(2, '0');
-  
-  return `${day}-${month}-${year} ${strHours}:${minutes}:${seconds} ${ampm}`;
+
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Kolkata',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  });
+
+  const parts = formatter.formatToParts(d);
+  const get = (type) => parts.find(p => p.type === type)?.value || '';
+
+  const day = get('day');
+  const month = get('month');
+  const year = get('year');
+  const hour = get('hour');
+  const minute = get('minute');
+  const second = get('second');
+  const dayPeriod = get('dayPeriod').toUpperCase();
+
+  return `${day}-${month}-${year} ${hour}:${minute}:${second} ${dayPeriod}`;
 };
 
 passSchema.methods.formatDateWithoutSeconds = function(dateField) {
   if (!dateField) return 'N/A';
   const d = new Date(dateField);
   if (isNaN(d.getTime())) return 'N/A';
-  
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = months[d.getMonth()];
-  const year = d.getFullYear();
-  
-  let hours = d.getHours();
-  const minutes = String(d.getMinutes()).padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const strHours = String(hours).padStart(2, '0');
-  
-  return `${day}-${month}-${year} ${strHours}:${minutes} ${ampm}`;
+
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Kolkata',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  const parts = formatter.formatToParts(d);
+  const get = (type) => parts.find(p => p.type === type)?.value || '';
+
+  const day = get('day');
+  const month = get('month');
+  const year = get('year');
+  const hour = get('hour');
+  const minute = get('minute');
+  const dayPeriod = get('dayPeriod').toUpperCase();
+
+  return `${day}-${month}-${year} ${hour}:${minute} ${dayPeriod}`;
 };
 
 module.exports = mongoose.model('Pass', passSchema);

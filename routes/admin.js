@@ -53,18 +53,56 @@ async function processImageUpload(file, fallback = '') {
   return `data:${file.mimetype};base64,${base64Data}`;
 }
 
-// Helper for date formatting in dashboard top bar
+// Helper for date formatting in dashboard top bar (Indian Standard Time - Asia/Kolkata)
 function getDashboardDateStr() {
   const d = new Date();
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const dayName = days[d.getDay()];
-  const dayNum = d.getDate();
-  const monthName = months[d.getMonth()];
-  const year = d.getFullYear();
-  const hours = String(d.getHours()).padStart(2, '0');
-  const minutes = String(d.getMinutes()).padStart(2, '0');
-  return `${dayName}, ${dayNum} ${monthName}, ${year}, ${hours}:${minutes}`;
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Kolkata',
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+  const parts = formatter.formatToParts(d);
+  const get = (type) => parts.find(p => p.type === type)?.value || '';
+  return `${get('weekday')}, ${get('day')} ${get('month')}, ${get('year')}, ${get('hour')}:${get('minute')}`;
+}
+
+// Helper to get start and end of current day in IST
+function getISTDayRange() {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+  const istDateStr = formatter.format(now);
+  const startOfToday = new Date(`${istDateStr}T00:00:00+05:30`);
+  const endOfToday = new Date(`${istDateStr}T23:59:59.999+05:30`);
+  return { startOfToday, endOfToday };
+}
+
+// Helper to format Date object into "YYYY-MM-DDTHH:mm" for datetime-local in IST
+function formatForInputIST(d) {
+  if (!d) return '';
+  const date = new Date(d);
+  if (isNaN(date.getTime())) return '';
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+  const parts = formatter.formatToParts(date);
+  const get = (type) => parts.find(p => p.type === type)?.value || '00';
+  return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}`;
 }
 
 // GET /admin/dashboard
@@ -72,11 +110,8 @@ router.get('/dashboard', async (req, res) => {
   try {
     const totalAll = await Pass.countDocuments();
 
-    // Today's count
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
+    // Today's count (Strictly IST Day)
+    const { startOfToday, endOfToday } = getISTDayRange();
 
     const todayCount = await Pass.countDocuments({
       createdAt: { $gte: startOfToday, $lte: endOfToday }
@@ -101,12 +136,19 @@ router.get('/dashboard', async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(10);
 
+    const todayISTFormatted = new Date().toLocaleDateString('en-GB', {
+      timeZone: 'Asia/Kolkata',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+
     res.render('admin/dashboard', {
       title: 'Dashboard | Mines & Geology Rajasthan',
       activeMenu: 'dashboard',
       user: { name: req.session.name || 'Administrator', username: req.session.username || 'admin' },
       currentDateStr: getDashboardDateStr(),
-      todayStr: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+      todayStr: todayISTFormatted,
       stats: {
         totalAll,
         todayCount,
@@ -189,11 +231,6 @@ router.get('/passes/new', async (req, res) => {
     const now = new Date();
     const expiry = new Date(now.getTime() + 20 * 60 * 60 * 1000);
 
-    const formatForInput = (d) => {
-      const pad = (n) => String(n).padStart(2, '0');
-      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-    };
-
     let prefill = {};
     if (req.query.from) {
       const sourcePass = await Pass.findById(req.query.from);
@@ -214,9 +251,9 @@ router.get('/passes/new', async (req, res) => {
         passNumber: generatedPassNo,
         vehicleNumber: prefill.vehicleNumber || '',
         status: prefill.status || 'Confirmed',
-        generatedAt: formatForInput(now),
-        confirmedAt: formatForInput(new Date(now.getTime() + 4 * 60 * 1000)),
-        validUntil: formatForInput(expiry),
+        generatedAt: formatForInputIST(now),
+        confirmedAt: formatForInputIST(new Date(now.getTime() + 4 * 60 * 1000)),
+        validUntil: formatForInputIST(expiry),
         traderName: prefill.traderName || '',
         traderGst: prefill.traderGst || '',
         location: prefill.location || '',
@@ -320,17 +357,10 @@ router.get('/passes/:id/edit', async (req, res) => {
       return res.redirect('/admin/dashboard?error=' + encodeURIComponent('Pass not found.'));
     }
 
-    const formatForInput = (d) => {
-      if (!d) return '';
-      const date = new Date(d);
-      const pad = (n) => String(n).padStart(2, '0');
-      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-    };
-
     const passObj = pass.toObject();
-    passObj.generatedAt = formatForInput(pass.generatedAt);
-    passObj.confirmedAt = formatForInput(pass.confirmedAt);
-    passObj.validUntil = formatForInput(pass.validUntil);
+    passObj.generatedAt = formatForInputIST(pass.generatedAt);
+    passObj.confirmedAt = formatForInputIST(pass.confirmedAt);
+    passObj.validUntil = formatForInputIST(pass.validUntil);
 
     res.render('admin/form', {
       title: `Edit Pass - ${pass.passNumber}`,
